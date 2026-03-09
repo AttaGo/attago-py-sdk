@@ -29,3 +29,6 @@ dev = ["pytest>=8.0", "pytest-asyncio>=0.24", "respx>=0.22"]
 Homepage = "https://attago.bid"
 Repository = "https://github.com/AttaGo/attago-py-sdk"
 Documentation = "https://attago.bid/docs"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
