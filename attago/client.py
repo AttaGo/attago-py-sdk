@@ -19,6 +19,18 @@ from .errors import ApiError, PaymentRequiredError, RateLimitError
 from .types import DEFAULT_BASE_URL, DEFAULT_COGNITO_REGION, VERSION
 from .x402 import do_with_x402, parse_payment_required
 
+from .agent import AgentService
+from .data import DataService
+from .subscriptions import SubscriptionService
+from .payments import PaymentService
+from .wallets import WalletService
+from .webhooks import WebhookService
+from .mcp import McpService
+from .api_keys import ApiKeyService
+from .bundles import BundleService
+from .push import PushService
+from .redeem import RedeemService
+
 
 # ── Auth modes ───────────────────────────────────────────────────────
 
@@ -119,6 +131,19 @@ class AttaGoClient:
                 transport=transport,
             )
             self._sync_client = None
+
+        # ── Attach service namespaces ──
+        self.agent = AgentService(self)
+        self.data = DataService(self)
+        self.subscriptions = SubscriptionService(self)
+        self.payments = PaymentService(self)
+        self.wallets = WalletService(self)
+        self.webhooks = WebhookService(self)
+        self.mcp = McpService(self)
+        self.api_keys = ApiKeyService(self)
+        self.bundles = BundleService(self)
+        self.push = PushService(self)
+        self.redeem = RedeemService(self)
 
     # ── Auth mode ────────────────────────────────────────────────────
 

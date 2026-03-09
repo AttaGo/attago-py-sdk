@@ -32,3 +32,4 @@ Documentation = "https://attago.bid/docs"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+markers = ["conformance: conformance tests against live API"]
