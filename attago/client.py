@@ -235,6 +235,7 @@ class AttaGoClient:
                 url,
                 headers=req_headers,
                 content=content,
+                params=params,
             )
         else:
             response = await self._async_client.request(

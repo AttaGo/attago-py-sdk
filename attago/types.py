@@ -26,15 +26,11 @@ class X402Signer(Protocol):
     Implementations handle EVM (EIP-712) or Solana (ed25519) signing.
     """
 
-    @property
-    def address(self) -> str:
-        """Wallet address (0x-prefixed EVM or base58 Solana)."""
-        ...
+    address: str
+    """Wallet address (0x-prefixed EVM or base58 Solana)."""
 
-    @property
-    def network(self) -> str:
-        """Network identifier (e.g. ``"eip155:8453"`` for Base)."""
-        ...
+    network: str
+    """Network identifier (e.g. ``"eip155:8453"`` for Base)."""
 
     async def sign(self, requirements: X402PaymentRequirements) -> str:
         """Sign an x402 payment payload, returning a base64-encoded payment string."""
@@ -121,6 +117,9 @@ class CognitoTokens:
             access_token=data["accessToken"],
             refresh_token=data["refreshToken"],
         )
+
+    def __repr__(self) -> str:
+        return "CognitoTokens(id_token='***', access_token='***', refresh_token='***')"
 
 
 @dataclass(slots=True)
@@ -655,6 +654,12 @@ class WebhookCreateResponse:
             created_at=data["createdAt"],
         )
 
+    def __repr__(self) -> str:
+        return (
+            f"WebhookCreateResponse(webhook_id={self.webhook_id!r}, "
+            f"url={self.url!r}, secret='***', created_at={self.created_at!r})"
+        )
+
 
 @dataclass(slots=True)
 class WebhookListItem:
@@ -784,6 +789,12 @@ class ApiKeyCreateResponse:
             prefix=data["prefix"],
             key=data["key"],
             created_at=data["createdAt"],
+        )
+
+    def __repr__(self) -> str:
+        return (
+            f"ApiKeyCreateResponse(key_id={self.key_id!r}, name={self.name!r}, "
+            f"prefix={self.prefix!r}, key='***', created_at={self.created_at!r})"
         )
 
 

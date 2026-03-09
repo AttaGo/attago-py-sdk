@@ -55,13 +55,8 @@ class FakeSigner:
     """Minimal x402 signer for testing."""
 
     def __init__(self, net: str = "eip155:8453") -> None:
-        self._network = net
-
-    def address(self) -> str:
-        return "0xTESTADDRESS"
-
-    def network(self) -> str:
-        return self._network
+        self.address = "0xTESTADDRESS"
+        self.network = net
 
     async def sign(self, requirements: dict) -> str:
         return "signed-payment-base64"
@@ -252,3 +247,38 @@ class TestDoWithX402:
                     "GET",
                     "https://api.test.com/v1/agent/score",
                 )
+
+    @pytest.mark.asyncio
+    async def test_params_forwarded_through_x402(self) -> None:
+        """Query params survive both the initial request and the signed retry."""
+        captured_urls: list[str] = []
+        call_count = 0
+
+        def handler(request: httpx.Request) -> httpx.Response:
+            nonlocal call_count
+            call_count += 1
+            captured_urls.append(str(request.url))
+            if call_count == 1:
+                encoded = _encode_requirements(SAMPLE_REQUIREMENTS)
+                return httpx.Response(
+                    402,
+                    json={"error": "Payment required"},
+                    headers={"Payment-Required": encoded},
+                )
+            return httpx.Response(200, json={"paid": True})
+
+        async with httpx.AsyncClient(
+            transport=httpx.MockTransport(handler),
+        ) as client:
+            resp = await do_with_x402(
+                client,
+                FakeSigner("eip155:8453"),
+                "GET",
+                "https://api.test.com/v1/agent/score",
+                params={"token": "BTC"},
+            )
+            assert resp.status_code == 200
+            assert call_count == 2
+            # Both the initial 402 request and the signed retry must include params
+            for url in captured_urls:
+                assert "token=BTC" in url

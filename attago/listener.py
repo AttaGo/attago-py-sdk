@@ -49,7 +49,7 @@ class WebhookListener:
         *,
         secret: str,
         port: int = 4000,
-        host: str = "0.0.0.0",
+        host: str = "127.0.0.1",
         path: str = "/webhook",
     ) -> None:
         self._secret = secret

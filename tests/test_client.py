@@ -80,11 +80,9 @@ class TestClientConstruction:
 
     def test_auth_mode_x402(self) -> None:
         class FakeSigner:
-            def address(self) -> str:
-                return "0xabc"
-
-            def network(self) -> str:
-                return "eip155:8453"
+            def __init__(self):
+                self.address = "0xabc"
+                self.network = "eip155:8453"
 
             async def sign(self, requirements):
                 return "sig"

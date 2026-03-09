@@ -63,7 +63,7 @@ async def do_with_x402(
     *,
     headers: dict[str, str] | None = None,
     content: bytes | None = None,
-    json_body: Any | None = None,
+    params: dict[str, str] | None = None,
 ) -> httpx.Response:
     """Send *method* request to *url*; on 402, sign and retry.
 
@@ -72,13 +72,13 @@ async def do_with_x402(
     1. Fire the original request.
     2. If the response is **not** 402, return it immediately.
     3. On 402: parse ``Payment-Required``, find the accepted option
-       matching ``signer.network()``, call ``signer.sign()``, and retry
+       matching ``signer.network``, call ``signer.sign()``, and retry
        with the ``Payment-Signature`` header added.
     4. If the retry is also 402, raise :class:`PaymentRequiredError`.
     """
     # ── First attempt ──
     response = await client.request(
-        method, url, headers=headers, content=content,
+        method, url, headers=headers, content=content, params=params,
     )
 
     if response.status_code != 402:
@@ -94,10 +94,10 @@ async def do_with_x402(
 
     # ── Find matching network ──
     accepts = requirements.get("accepts", [])
-    accepted = filter_accepts_by_network(accepts, signer.network())
+    accepted = filter_accepts_by_network(accepts, signer.network)
     if accepted is None:
         raise PaymentRequiredError(
-            message=f"No accepted payment for network {signer.network()!r}",
+            message=f"No accepted payment for network {signer.network!r}",
             payment_requirements=requirements,
             headers=dict(response.headers),
         )
@@ -116,7 +116,7 @@ async def do_with_x402(
     retry_headers["Payment-Signature"] = signature
 
     retry_response = await client.request(
-        method, url, headers=retry_headers, content=content,
+        method, url, headers=retry_headers, content=content, params=params,
     )
 
     if retry_response.status_code == 402:
