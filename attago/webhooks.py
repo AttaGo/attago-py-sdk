@@ -48,7 +48,7 @@ class WebhookService:
             data = self._client._request_sync("GET", "/user/webhooks")
         else:
             data = await self._client._request("GET", "/user/webhooks")
-        return [WebhookListItem.from_dict(w) for w in data.get("webhooks", [])]
+        return [WebhookListItem.from_dict(w) for w in data.get("items", [])]
 
     async def delete(self, webhook_id: str) -> None:
         """Delete a webhook.

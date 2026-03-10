@@ -147,7 +147,7 @@ class TestWebhookService:
             assert request.method == "GET"
             assert "/v1/user/webhooks" in str(request.url)
             return httpx.Response(200, json={
-                "webhooks": [
+                "items": [
                     {
                         "webhookId": "wh_1",
                         "url": "https://example.com/hook1",
@@ -175,7 +175,7 @@ class TestWebhookService:
         """GET /webhooks with empty list returns empty list."""
 
         def handler(request: httpx.Request) -> httpx.Response:
-            return httpx.Response(200, json={"webhooks": []})
+            return httpx.Response(200, json={"items": []})
 
         async with _make_client(handler) as client:
             svc = WebhookService(client)
