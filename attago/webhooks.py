@@ -34,9 +34,9 @@ class WebhookService:
         ``POST /webhooks``
         """
         if self._client._sync:
-            data = self._client._request_sync("POST", "/webhooks", body={"url": url})
+            data = self._client._request_sync("POST", "/user/webhooks", body={"url": url})
         else:
-            data = await self._client._request("POST", "/webhooks", body={"url": url})
+            data = await self._client._request("POST", "/user/webhooks", body={"url": url})
         return WebhookCreateResponse.from_dict(data)
 
     async def list(self) -> list[WebhookListItem]:
@@ -45,9 +45,9 @@ class WebhookService:
         ``GET /webhooks``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/webhooks")
+            data = self._client._request_sync("GET", "/user/webhooks")
         else:
-            data = await self._client._request("GET", "/webhooks")
+            data = await self._client._request("GET", "/user/webhooks")
         return [WebhookListItem.from_dict(w) for w in data.get("webhooks", [])]
 
     async def delete(self, webhook_id: str) -> None:
@@ -56,9 +56,9 @@ class WebhookService:
         ``DELETE /webhooks/{webhook_id}``
         """
         if self._client._sync:
-            self._client._request_sync("DELETE", f"/webhooks/{webhook_id}")
+            self._client._request_sync("DELETE", f"/user/webhooks/{webhook_id}")
         else:
-            await self._client._request("DELETE", f"/webhooks/{webhook_id}")
+            await self._client._request("DELETE", f"/user/webhooks/{webhook_id}")
 
     async def send_server_test(self, webhook_id: str) -> WebhookTestResult:
         """Trigger a server-side test delivery.
@@ -67,11 +67,11 @@ class WebhookService:
         """
         if self._client._sync:
             data = self._client._request_sync(
-                "POST", f"/webhooks/{webhook_id}/test"
+                "POST", f"/user/webhooks/{webhook_id}/test"
             )
         else:
             data = await self._client._request(
-                "POST", f"/webhooks/{webhook_id}/test"
+                "POST", f"/user/webhooks/{webhook_id}/test"
             )
         return WebhookTestResult.from_dict(data)
 

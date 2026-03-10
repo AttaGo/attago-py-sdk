@@ -23,7 +23,7 @@ class RedeemService:
         """
         body = {"code": code}
         if self._client._sync:
-            data = self._client._request_sync("POST", "/redeem", body=body)
+            data = self._client._request_sync("POST", "/user/redeem", body=body)
         else:
-            data = await self._client._request("POST", "/redeem", body=body)
+            data = await self._client._request("POST", "/user/redeem", body=body)
         return RedeemResponse.from_dict(data)

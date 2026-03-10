@@ -82,7 +82,7 @@ class TestSubscriptionService:
         """list() returns a list of Subscription objects."""
 
         def handler(request: httpx.Request) -> httpx.Response:
-            assert "/v1/subscriptions" in str(request.url)
+            assert "/v1/user/subscriptions" in str(request.url)
             assert request.method == "GET"
             return httpx.Response(200, json={
                 "subscriptions": [
@@ -205,7 +205,7 @@ class TestSubscriptionService:
         def handler(request: httpx.Request) -> httpx.Response:
             nonlocal captured_body
             assert request.method == "PUT"
-            assert "/v1/subscriptions/sub_1" in str(request.url)
+            assert "/v1/user/subscriptions/sub_1" in str(request.url)
             captured_body = json.loads(request.content)
             return httpx.Response(200, json={
                 "userId": "u1",
@@ -239,7 +239,7 @@ class TestSubscriptionService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "DELETE"
-            assert "/v1/subscriptions/sub_1" in str(request.url)
+            assert "/v1/user/subscriptions/sub_1" in str(request.url)
             return httpx.Response(204)
 
         async with _make_client(handler) as client:
@@ -357,7 +357,7 @@ class TestWalletService:
         def handler(request: httpx.Request) -> httpx.Response:
             nonlocal captured_body
             assert request.method == "POST"
-            assert "/v1/wallets" in str(request.url)
+            assert "/v1/payments/wallet" in str(request.url)
             captured_body = json.loads(request.content)
             return httpx.Response(200, json={
                 "userId": "u1",
@@ -421,7 +421,7 @@ class TestWalletService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "DELETE"
-            assert "/v1/wallets/0xABC" in str(request.url)
+            assert "/v1/payments/wallet/0xABC" in str(request.url)
             return httpx.Response(204)
 
         async with _make_client(handler) as client:
@@ -492,7 +492,7 @@ class TestApiKeyService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "DELETE"
-            assert "/v1/api-keys/key_1" in str(request.url)
+            assert "/v1/user/api-keys/key_1" in str(request.url)
             return httpx.Response(204)
 
         async with _make_client(handler) as client:
@@ -644,7 +644,7 @@ class TestPushService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "DELETE"
-            assert "/v1/push/subscriptions/push_1" in str(request.url)
+            assert "/v1/user/push-subscriptions/push_1" in str(request.url)
             return httpx.Response(204)
 
         async with _make_client(handler) as client:
@@ -666,7 +666,7 @@ class TestRedeemService:
         def handler(request: httpx.Request) -> httpx.Response:
             nonlocal captured_body
             assert request.method == "POST"
-            assert "/v1/redeem" in str(request.url)
+            assert "/v1/user/redeem" in str(request.url)
             captured_body = json.loads(request.content)
             return httpx.Response(200, json={
                 "tier": "pro",

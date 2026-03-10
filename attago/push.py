@@ -22,9 +22,9 @@ class PushService:
         ``GET /push/subscriptions``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/push/subscriptions")
+            data = self._client._request_sync("GET", "/user/push-subscriptions")
         else:
-            data = await self._client._request("GET", "/push/subscriptions")
+            data = await self._client._request("GET", "/user/push-subscriptions")
         return [PushSubscriptionResponse.from_dict(s) for s in data["subscriptions"]]
 
     async def create(self, input: CreatePushInput) -> PushSubscriptionResponse:
@@ -40,9 +40,9 @@ class PushService:
             },
         }
         if self._client._sync:
-            data = self._client._request_sync("POST", "/push/subscriptions", body=body)
+            data = self._client._request_sync("POST", "/user/push-subscriptions", body=body)
         else:
-            data = await self._client._request("POST", "/push/subscriptions", body=body)
+            data = await self._client._request("POST", "/user/push-subscriptions", body=body)
         return PushSubscriptionResponse.from_dict(data)
 
     async def delete(self, subscription_id: str) -> None:
@@ -51,6 +51,6 @@ class PushService:
         ``DELETE /push/subscriptions/{subscription_id}``
         """
         if self._client._sync:
-            self._client._request_sync("DELETE", f"/push/subscriptions/{subscription_id}")
+            self._client._request_sync("DELETE", f"/user/push-subscriptions/{subscription_id}")
         else:
-            await self._client._request("DELETE", f"/push/subscriptions/{subscription_id}")
+            await self._client._request("DELETE", f"/user/push-subscriptions/{subscription_id}")

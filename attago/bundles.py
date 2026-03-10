@@ -22,9 +22,9 @@ class BundleService:
         ``GET /bundles``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/bundles")
+            data = self._client._request_sync("GET", "/api/bundles")
         else:
-            data = await self._client._request("GET", "/bundles")
+            data = await self._client._request("GET", "/api/bundles")
         return BundleListResponse.from_dict(data)
 
     async def purchase(self, input: PurchaseBundleInput) -> BundlePurchaseResponse:
@@ -37,7 +37,7 @@ class BundleService:
             "walletAddress": input.wallet_address,
         }
         if self._client._sync:
-            data = self._client._request_sync("POST", "/bundles", body=body)
+            data = self._client._request_sync("POST", "/api/bundles", body=body)
         else:
-            data = await self._client._request("POST", "/bundles", body=body)
+            data = await self._client._request("POST", "/api/bundles", body=body)
         return BundlePurchaseResponse.from_dict(data)

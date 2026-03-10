@@ -33,9 +33,9 @@ class SubscriptionService:
         ``GET /subscriptions``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/subscriptions")
+            data = self._client._request_sync("GET", "/user/subscriptions")
         else:
-            data = await self._client._request("GET", "/subscriptions")
+            data = await self._client._request("GET", "/user/subscriptions")
         return [Subscription.from_dict(s) for s in data["subscriptions"]]
 
     async def create(self, input: CreateSubscriptionInput) -> Subscription:
@@ -61,9 +61,9 @@ class SubscriptionService:
         if input.cooldown_minutes is not None:
             body["cooldownMinutes"] = input.cooldown_minutes
         if self._client._sync:
-            data = self._client._request_sync("POST", "/subscriptions", body=body)
+            data = self._client._request_sync("POST", "/user/subscriptions", body=body)
         else:
-            data = await self._client._request("POST", "/subscriptions", body=body)
+            data = await self._client._request("POST", "/user/subscriptions", body=body)
         return Subscription.from_dict(data)
 
     async def update(self, sub_id: str, input: UpdateSubscriptionInput) -> Subscription:
@@ -91,9 +91,9 @@ class SubscriptionService:
         if input.is_active is not None:
             body["isActive"] = input.is_active
         if self._client._sync:
-            data = self._client._request_sync("PUT", f"/subscriptions/{sub_id}", body=body)
+            data = self._client._request_sync("PUT", f"/user/subscriptions/{sub_id}", body=body)
         else:
-            data = await self._client._request("PUT", f"/subscriptions/{sub_id}", body=body)
+            data = await self._client._request("PUT", f"/user/subscriptions/{sub_id}", body=body)
         return Subscription.from_dict(data)
 
     async def delete(self, sub_id: str) -> None:
@@ -102,6 +102,6 @@ class SubscriptionService:
         ``DELETE /subscriptions/{sub_id}``
         """
         if self._client._sync:
-            self._client._request_sync("DELETE", f"/subscriptions/{sub_id}")
+            self._client._request_sync("DELETE", f"/user/subscriptions/{sub_id}")
         else:
-            await self._client._request("DELETE", f"/subscriptions/{sub_id}")
+            await self._client._request("DELETE", f"/user/subscriptions/{sub_id}")

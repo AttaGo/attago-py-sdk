@@ -23,9 +23,9 @@ class ApiKeyService:
         """
         body = {"name": name}
         if self._client._sync:
-            data = self._client._request_sync("POST", "/api-keys", body=body)
+            data = self._client._request_sync("POST", "/user/api-keys", body=body)
         else:
-            data = await self._client._request("POST", "/api-keys", body=body)
+            data = await self._client._request("POST", "/user/api-keys", body=body)
         return ApiKeyCreateResponse.from_dict(data)
 
     async def list(self) -> list[ApiKeyListItem]:
@@ -34,9 +34,9 @@ class ApiKeyService:
         ``GET /api-keys``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/api-keys")
+            data = self._client._request_sync("GET", "/user/api-keys")
         else:
-            data = await self._client._request("GET", "/api-keys")
+            data = await self._client._request("GET", "/user/api-keys")
         return [ApiKeyListItem.from_dict(k) for k in data["keys"]]
 
     async def revoke(self, key_id: str) -> None:
@@ -45,6 +45,6 @@ class ApiKeyService:
         ``DELETE /api-keys/{key_id}``
         """
         if self._client._sync:
-            self._client._request_sync("DELETE", f"/api-keys/{key_id}")
+            self._client._request_sync("DELETE", f"/user/api-keys/{key_id}")
         else:
-            await self._client._request("DELETE", f"/api-keys/{key_id}")
+            await self._client._request("DELETE", f"/user/api-keys/{key_id}")

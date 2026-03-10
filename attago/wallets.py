@@ -19,7 +19,7 @@ class WalletService:
     async def register(self, input: RegisterWalletInput) -> Wallet:
         """Register a new wallet.
 
-        ``POST /wallets``
+        ``POST /payments/wallet``
         """
         body = {
             "walletAddress": input.wallet_address,
@@ -28,28 +28,28 @@ class WalletService:
             "timestamp": input.timestamp,
         }
         if self._client._sync:
-            data = self._client._request_sync("POST", "/wallets", body=body)
+            data = self._client._request_sync("POST", "/payments/wallet", body=body)
         else:
-            data = await self._client._request("POST", "/wallets", body=body)
+            data = await self._client._request("POST", "/payments/wallet", body=body)
         return Wallet.from_dict(data)
 
     async def list(self) -> list[Wallet]:
         """List all wallets for the authenticated user.
 
-        ``GET /wallets``
+        ``GET /payments/wallets``
         """
         if self._client._sync:
-            data = self._client._request_sync("GET", "/wallets")
+            data = self._client._request_sync("GET", "/payments/wallets")
         else:
-            data = await self._client._request("GET", "/wallets")
+            data = await self._client._request("GET", "/payments/wallets")
         return [Wallet.from_dict(w) for w in data["wallets"]]
 
     async def remove(self, address: str) -> None:
         """Remove a wallet.
 
-        ``DELETE /wallets/{address}``
+        ``DELETE /payments/wallet/{address}``
         """
         if self._client._sync:
-            self._client._request_sync("DELETE", f"/wallets/{address}")
+            self._client._request_sync("DELETE", f"/payments/wallet/{address}")
         else:
-            await self._client._request("DELETE", f"/wallets/{address}")
+            await self._client._request("DELETE", f"/payments/wallet/{address}")

@@ -120,7 +120,7 @@ class TestWebhookService:
         def handler(request: httpx.Request) -> httpx.Response:
             nonlocal captured_body
             assert request.method == "POST"
-            assert "/v1/webhooks" in str(request.url)
+            assert "/v1/user/webhooks" in str(request.url)
             captured_body = json.loads(request.content)
             return httpx.Response(200, json={
                 "webhookId": "wh_1",
@@ -145,7 +145,7 @@ class TestWebhookService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "GET"
-            assert "/v1/webhooks" in str(request.url)
+            assert "/v1/user/webhooks" in str(request.url)
             return httpx.Response(200, json={
                 "webhooks": [
                     {
@@ -189,7 +189,7 @@ class TestWebhookService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "DELETE"
-            assert "/v1/webhooks/wh_1" in str(request.url)
+            assert "/v1/user/webhooks/wh_1" in str(request.url)
             return httpx.Response(204)
 
         async with _make_client(handler) as client:
@@ -204,7 +204,7 @@ class TestWebhookService:
 
         def handler(request: httpx.Request) -> httpx.Response:
             assert request.method == "POST"
-            assert "/v1/webhooks/wh_1/test" in str(request.url)
+            assert "/v1/user/webhooks/wh_1/test" in str(request.url)
             return httpx.Response(200, json={
                 "success": True,
                 "attempts": 1,
