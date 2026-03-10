@@ -2,8 +2,6 @@
 
 [![CI](https://github.com/AttaGo/attago-py-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/AttaGo/attago-py-sdk/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/attago)](https://pypi.org/project/attago/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 Python SDK for the [AttaGo](https://attago.bid) crypto trading dashboard API.
 
 ## Install
@@ -114,7 +112,3 @@ except RateLimitError as e:
 except ApiError as e:
     print(f"API error {e.status_code}: {e.message}")
 ```
-
-## License
-
-MIT
