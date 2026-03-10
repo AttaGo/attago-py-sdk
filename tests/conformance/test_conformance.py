@@ -54,6 +54,7 @@ def load_fixtures():
 
 @pytest.mark.conformance
 @pytest.mark.skipif(not BASE_URL, reason="ATTAGO_BASE_URL not set")
+@pytest.mark.skipif(not API_KEY, reason="ATTAGO_API_KEY not set")
 @pytest.mark.skipif(not FIXTURE_DIR.exists(), reason=f"Fixture dir not found: {FIXTURE_DIR}")
 class TestConformance:
     @pytest.mark.parametrize("fixture", load_fixtures())
