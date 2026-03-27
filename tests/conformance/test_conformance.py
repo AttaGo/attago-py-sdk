@@ -62,8 +62,11 @@ class TestConformance:
         req = fixture["request"]
         expected = fixture["response"]
 
-        # Build URL
-        url = BASE_URL.rstrip("/") + req["path"]
+        # Substitute path parameters (e.g. {id}) before building URL
+        resolved_path = req["path"]
+        for k, v in req.get("pathParameters", {}).items():
+            resolved_path = resolved_path.replace(f"{{{k}}}", v)
+        url = BASE_URL.rstrip("/") + resolved_path
         params = req.get("query", {})
 
         # Build headers
