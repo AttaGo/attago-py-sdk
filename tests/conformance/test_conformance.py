@@ -34,6 +34,9 @@ def _should_skip(fixture: dict) -> bool:
     # Skip fixtures that test auth enforcement (expect 4xx with no auth)
     if fixture.get("response", {}).get("status") == 401 and "X-API-Key" not in headers:
         return True
+    # Skip fixtures that need pre-existing data (e.g. registered webhook)
+    if fixture.get("requiresSetup"):
+        return True
     return False
 
 
