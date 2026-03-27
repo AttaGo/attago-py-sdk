@@ -1097,6 +1097,58 @@ class McpToolCallResult:
         )
 
 
+# ── Messaging types ─────────────────────────────────────────────
+
+
+@dataclass(slots=True)
+class MessagingLink:
+    """A linked messaging channel."""
+
+    platform: str
+    username: str
+    linked_at: str
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        return cls(
+            platform=data["platform"],
+            username=data["username"],
+            linked_at=data["linkedAt"],
+        )
+
+
+@dataclass(slots=True)
+class MessagingLinkResult:
+    """Result of linking a messaging account."""
+
+    linked: bool
+    username: str
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        return cls(
+            linked=data["linked"],
+            username=data["username"],
+        )
+
+
+@dataclass(slots=True)
+class MessagingTestResult:
+    """Result of a messaging test delivery."""
+
+    success: bool
+    platforms: list[str]
+    error: str | None = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Self:
+        return cls(
+            success=data["success"],
+            platforms=data.get("platforms", []),
+            error=data.get("error"),
+        )
+
+
 # ── User profile types ──────────────────────────────────────────────
 
 

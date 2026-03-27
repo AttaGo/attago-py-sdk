@@ -44,6 +44,7 @@ from attago.api_keys import ApiKeyService
 from attago.bundles import BundleService
 from attago.push import PushService
 from attago.redeem import RedeemService
+from attago.messaging import MessagingService
 from attago.listener import WebhookListener
 
 # ── x402 ──
@@ -110,6 +111,9 @@ from attago.types import (
     McpToolContent,
     McpToolCallResult,
     UserProfile,
+    MessagingLink,
+    MessagingLinkResult,
+    MessagingTestResult,
 )
 
 __all__ = [
@@ -138,6 +142,7 @@ __all__ = [
     "BundleService",
     "PushService",
     "RedeemService",
+    "MessagingService",
     "WebhookListener",
     # Webhook helpers
     "build_test_payload",

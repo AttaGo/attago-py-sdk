@@ -30,6 +30,7 @@ from .api_keys import ApiKeyService
 from .bundles import BundleService
 from .push import PushService
 from .redeem import RedeemService
+from .messaging import MessagingService
 
 
 # ── Auth modes ───────────────────────────────────────────────────────
@@ -144,6 +145,7 @@ class AttaGoClient:
         self.bundles = BundleService(self)
         self.push = PushService(self)
         self.redeem = RedeemService(self)
+        self.messaging = MessagingService(self)
 
     # ── Auth mode ────────────────────────────────────────────────────
 
