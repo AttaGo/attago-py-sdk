@@ -174,7 +174,7 @@ class TestMessagingServiceSync:
             svc = MessagingService(client)
             # In sync mode, the async method still works but uses sync path
             import asyncio
-            result = asyncio.get_event_loop().run_until_complete(svc.list())
+            result = asyncio.run(svc.list())
 
         assert len(result) == 1
         assert result[0].platform == "telegram"
